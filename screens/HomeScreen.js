@@ -84,7 +84,6 @@ class HomeScreen extends React.Component {
             />
           </View>
           <Text>App Delivery</Text>
-          <Text>{JSON.stringify(this.state.dataCategories)}</Text>
         </View>
       </ScrollView>
     );
