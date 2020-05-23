@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   FlatList,
@@ -9,11 +9,11 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-} from 'react-native';
-import { useTheme } from '@react-navigation/native';
-import Swiper from 'react-native-swiper';
+} from "react-native";
+import { useTheme } from "@react-navigation/native";
+import Swiper from "react-native-swiper";
 
-var { height, width } = Dimensions.get('window');
+var { height, width } = Dimensions.get("window");
 
 class HomeScreen extends React.Component {
   constructor(props) {
@@ -26,16 +26,16 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    fetch('https://tutofox.com/foodapp/api.json')
-      .then(response => response.json())
-      .then(responseJson => {
+    fetch("https://tutofox.com/foodapp/api.json")
+      .then((response) => response.json())
+      .then((responseJson) => {
         this.setState({
           isLoading: false,
           dataBanner: responseJson.banner,
           dataCategories: responseJson.categories,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error);
       });
   }
@@ -44,18 +44,19 @@ class HomeScreen extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <View style={{ width: width, alignItems: 'center' }}>
+          <View style={{ width: width, alignItems: "center" }}>
             <Image
               resizeMode="contain"
               style={{ height: 60, width: width / 2, margin: 10 }}
-              source={{ uri: 'https://tutofox.com/foodapp/foodapp.png' }}
+              source={{ uri: "https://tutofox.com/foodapp/foodapp.png" }}
             />
             <Swiper
               style={{ height: width / 2 }}
               showsButtons={false}
               autoplay={true}
-              autoplayTimeou={2}>
-              {this.state.dataBanner.map(itemmap => {
+              autoplayTimeou={2}
+            >
+              {this.state.dataBanner.map((itemmap) => {
                 return (
                   <Image
                     style={styles.imagebanner}
@@ -71,8 +72,9 @@ class HomeScreen extends React.Component {
               width: width,
               borderRadius: 20,
               paddingVertical: 20,
-              backgroundColor: 'white',
-            }}>
+              backgroundColor: "white",
+            }}
+          >
             <Text style={styles.titleCate}>
               Categories{this.state.selectCate}
             </Text>
@@ -92,13 +94,14 @@ class HomeScreen extends React.Component {
     return (
       <TouchableOpacity
         style={[styles.divCategories, { backgroundColor: item.color }]}
-        onPress={() => this.setState({ selectCate: item.id })}>
+        onPress={() => this.setState({ selectCate: item.id })}
+      >
         <Image
           style={{ width: 100, height: 80 }}
           resizeMode="contain"
           source={{ uri: item.image }}
         />
-        <Text style={{ fontWeight: 'bold', fontSize: 22 }}>{item.name}</Text>
+        <Text style={{ fontWeight: "bold", fontSize: 22 }}>{item.name}</Text>
       </TouchableOpacity>
     );
   }
@@ -109,7 +112,7 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f2f2f2',
+    backgroundColor: "#f2f2f2",
   },
   imagebanner: {
     height: width / 2,
@@ -118,16 +121,16 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   divCategories: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     margin: 5,
-    alignItems: 'center',
+    alignItems: "center",
     borderRadius: 10,
     padding: 10,
   },
   titleCate: {
     fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 10,
   },
 });
