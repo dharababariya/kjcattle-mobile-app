@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Dimensions,
   AsyncStorage,
+  ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
@@ -17,8 +18,17 @@ class DetailsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data: '',
+      dataCart: [],
     };
+  }
+
+  componentDidMount() {
+    AsyncStorage.getItem('cart').then((cart) => {
+      if (cart !== null) {
+        const cartfood = JSON.parse(cart);
+        this.setState({ dataCart: cartfood });
+      }
+    });
   }
   render() {
     return (
@@ -29,31 +39,98 @@ class DetailsScreen extends React.Component {
         </Text>
         <View style={{ height: 10 }} />
 
-        <View style={{ backgroundColor: 'transparent', flex: 1 }}>
-          <View style={{ width: width - 20, flexDirection: 'row' }}>
-            <Image
-              resizeMode={'contain'}
-              style={{
-                width: width / 3,
-                height: width / 3,
-              }}
-              source={{
-                uri: 'http://tutofox.com/foodapp//food/pizza/pizza-1.png',
-              }}
-            />
-            <View style={{ backgroundColor: 'red', flex: 1 }}>
-              <Text>Title</Text>
-              <Text>Lorem ipsum food</Text>
-                <Text>65</Text>
-                <View style={{ flexDirection: 'row' }}>
-                  <Icon name="ios-remove-circle" size={30} color={'white'} />
-                  <Text>5</Text>
-                  <Icon name="ios-add-circle" size={30} color={'white'} />
-              </View>
-            </View>
-          </View>
+        <View
+          style={{
+            backgroundColor: 'transparent',
+            flex: 1,
+          }}>
+          <ScrollView>
+            {this.state.dataCart.map((item, i) => {
+              return (
+                <View
+                  style={{
+                    width: width - 20,
+                    margin: 10,
+                    backgroundColor: 'transparent',
+                    flexDirection: 'row',
+                    borderBottomWidth: 2,
+                    borderColor: '#cccccc',
+                    paddingBottom: 10,
+                  }}>
+                  <Image
+                    resizeMode={'contain'}
+                    style={{
+                      width: width / 3,
+                      height: width / 3,
+                    }}
+                    source={{
+                      uri: item.food.image,
+                    }}
+                  />
+                  <View
+                    style={{
+                      backgroundColor: 'transparent',
+                      flex: 1,
+                      justifyContent: 'space-btween',
+                    }}>
+                    <View>
+                      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                        {item.food.name}
+                      </Text>
+                      <Text>Lorem ipsum food</Text>
+                    </View>
+                    <View
+                      style={{
+                        backgroundColor: 'transparent',
+                        flexDirection: 'row',
+                        justifyContent: 'space-btween',
+                      }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          color: '#33c37d',
+                          fontSize: 20,
+                        }}>
+                        {item.price * item.quantity}
+                      </Text>
+                      <View
+                        style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <TouchableOpacity
+                          onPress={() => this.onChangeQuat(i, false)}>
+                          <Icon
+                            name="ios-remove-circle"
+                            size={30}
+                            color={'#33c37d'}
+                          />
+                        </TouchableOpacity>
+                        <Text
+                          style={{ fontWeight: 'bold', paddingHorizontal: 8 }}>
+                          {item.quantity}
+                        </Text>
+                        <TouchableOpacity
+                          onPress={() => this.onChangeQuat(i, true)}>
+                          <Icon
+                            name="ios-add-circle"
+                            size={30}
+                            color={'#33c37d'}
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              );
+            })}
+            <View style={{ height: 20 }} />
+
+            <Text
+              style={{ fontSize: 20, color: '#009387', textAlign: 'center' }}>
+              {this.onLoadTotal()}
+            </Text>
+          </ScrollView>
         </View>
-        <View style={{ height: 20 }} />
+
+        <View style={{ height: 10 }} />
         <TouchableOpacity
           style={{
             backgroundColor: '#009387',
@@ -70,6 +147,33 @@ class DetailsScreen extends React.Component {
         <View style={{ height: 10 }} />
       </View>
     );
+  }
+  onLoadTotal() {
+    var total = 0;
+    const cart = this.state.dataCart;
+
+    for (var i = 0; i < cart.length; i++) {
+      total = total + cart[i].price * cart[i].quantity;
+    }
+    return total;
+  }
+
+  onChangeQuat(i, type) {
+    const cart = this.state.dataCart;
+    let cant = cart[i].quantity;
+
+    if (type) {
+      cant = cant + 1;
+      cart[i].quantity = cant;
+      this.setState({ dataCart: cart });
+    } else if (type == false && cant >= 2) {
+      cant = cant - 1;
+      cart[i].quantity = cant;
+      this.setState({ dataCart: cart });
+    } else if (type == false && cant == 1) {
+      cart.splice(i, 1);
+      this.setState({ dataCart: cart });
+    }
   }
 }
 
