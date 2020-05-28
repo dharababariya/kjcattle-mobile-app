@@ -5,7 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import DrawerContent from './screens/DrawerContent';
 import MainTabScreen from './screens/MainTabScreen';
 import RootStackScreen from '.screens//RootStackScreen';
-import { AuthContext } from './components/context';
+import { AuthContext } from './components/Context';
 
 const Drawer = createDrawerNavigator();
 
