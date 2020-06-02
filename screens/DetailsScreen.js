@@ -12,9 +12,9 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-var { height, width } = Dimensions.get('window');
+var { width } = Dimensions.get('window');
 
-class DetailsScreen extends React.Component {
+class Cart extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,20 +30,27 @@ class DetailsScreen extends React.Component {
       }
     });
   }
+
   render() {
     return (
-      <View style={styles.container}>
+      <View
+        style={{
+          flex: 1,
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}>
         <View style={{ height: 20 }} />
-        <Text style={{ fontSize: 28, color: 'gray', fontWeight: 'bold' }}>
-          Cart Food
+        <Text
+          style={{
+            fontSize: 28,
+            color: 'gray',
+            fontWeight: 'bold',
+          }}>
+          Cart
         </Text>
         <View style={{ height: 10 }} />
 
-        <View
-          style={{
-            backgroundColor: 'transparent',
-            flex: 1,
-          }}>
+        <View style={{ backgroundColor: 'transparent', flex: 1 }}>
           <ScrollView>
             {this.state.dataCart.map((item, i) => {
               return (
@@ -51,18 +58,14 @@ class DetailsScreen extends React.Component {
                   style={{
                     width: width - 20,
                     margin: 10,
-                    backgroundColor: 'transparent',
                     flexDirection: 'row',
                     borderBottomWidth: 2,
                     borderColor: '#cccccc',
                     paddingBottom: 10,
                   }}>
                   <Image
-                    resizeMode={'contain'}
-                    style={{
-                      width: width / 3,
-                      height: width / 3,
-                    }}
+                    resizeMode="contain"
+                    style={{ width: width / 3, height: width / 3 }}
                     source={{
                       uri: item.food.image,
                     }}
@@ -71,27 +74,32 @@ class DetailsScreen extends React.Component {
                     style={{
                       backgroundColor: 'transparent',
                       flex: 1,
-                      justifyContent: 'space-btween',
+                      justifyContent: 'space-between',
                     }}>
                     <View>
-                      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                      <Text
+                        style={{
+                          fontWeight: 'bold',
+                          fontSize: 20,
+                        }}>
                         {item.food.name}
                       </Text>
                       <Text>Lorem ipsum food</Text>
                     </View>
+
                     <View
                       style={{
                         backgroundColor: 'transparent',
                         flexDirection: 'row',
-                        justifyContent: 'space-btween',
+                        justifyContent: 'space-between',
                       }}>
                       <Text
                         style={{
+                          fontSize: 20,
                           fontWeight: 'bold',
                           color: '#33c37d',
-                          fontSize: 20,
                         }}>
-                        {item.price * item.quantity}
+                        Rs.{item.price * item.quantity}
                       </Text>
                       <View
                         style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -124,7 +132,11 @@ class DetailsScreen extends React.Component {
             <View style={{ height: 20 }} />
 
             <Text
-              style={{ fontSize: 20, color: '#009387', textAlign: 'center' }}>
+              style={{
+                fontSize: 20,
+                color: '#009387',
+                textAlign: 'center',
+              }}>
               {this.onLoadTotal()}
             </Text>
           </ScrollView>
@@ -133,17 +145,21 @@ class DetailsScreen extends React.Component {
         <View style={{ height: 10 }} />
         <TouchableOpacity
           style={{
-            backgroundColor: '#009387',
+            backgroundColor: '#33c37d',
             width: width - 40,
             alignItems: 'center',
             padding: 10,
             borderRadius: 5,
           }}>
-          <Text style={{ fontSize: 24, fontWeight: 'bold', color: 'white' }}>
+          <Text
+            style={{
+              fontSize: 24,
+              fontWeight: 'bold',
+              color: 'white',
+            }}>
             CHECKOUT
           </Text>
         </TouchableOpacity>
-
         <View style={{ height: 10 }} />
       </View>
     );
@@ -177,12 +193,12 @@ class DetailsScreen extends React.Component {
   }
 }
 
-export default DetailsScreen;
+export default Cart;
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  // container: {
+  //   flex: 1,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  // },
 });
