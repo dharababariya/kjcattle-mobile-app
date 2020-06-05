@@ -18,7 +18,7 @@ import { AuthContext } from '../components/Context';
 
 const SignInScreen = ({ navigation }) => {
   const [data, setData] = React.useState({
-    email: '',
+    username: '',
     password: '',
     check_textInputChange: false,
     secureTextEntry: true,
@@ -30,13 +30,13 @@ const SignInScreen = ({ navigation }) => {
     if (val.length !== 0) {
       setData({
         ...data,
-        email: val,
+        username: val,
         check_textInputChange: true,
       });
     } else {
       setData({
         ...data,
-        email: val,
+        username: val,
         check_textInputChange: false,
       });
     }
@@ -56,8 +56,8 @@ const SignInScreen = ({ navigation }) => {
     });
   };
 
-  const loginHandle = (userName, password) => {
-    signIn(userName, password);
+  const loginHandle = (username, password) => {
+    signIn(username, password);
   }
 
   return (
@@ -113,12 +113,12 @@ const SignInScreen = ({ navigation }) => {
           <TouchableOpacity
             style={styles.signIn}
             onPress={() => {
-              loginHandle(data.userName, data.password)
+              loginHandle(data.username, data.password)
             }}>
             <LinearGradient
               colors={['#08d4c4', '#01ab9d']}
               style={styles.signIn}>
-              <Text
+              <Text  
                 style={[
                   styles.textSign,
                   {
