@@ -1,107 +1,103 @@
 import React from 'react';
-
-import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  Dimensions,
+  StyleSheet,
+} from 'react-native';
+import Food from './Food';
+import Cart from './Cart';
+import Address from './Address';
+import Profile from './Profile';
 import Icon from 'react-native-vector-icons/Ionicons';
+var { width } = Dimensions.get('window');
 
-import HomeScreen from './HomeScreen';
-import DetailsScreen from './DetailsScreen';
-import ExploreScreen from './ExploreScreen';
-import ProfileScreen from './ProfileScreen';
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      module: 1,
+    };
+  }
+  render() {
+    return (
+      <View style={{ flex: 1 }}>
+        {this.state.module == 1 ? (
+          <Food />
+        ) : this.state.module == 2 ? (
+          <Cart />
+        ) : this.state.module == 3 ? (
+          <Address />
+        ) : (
+          <Profile />
+        )}
 
-const HomeStack = createStackNavigator();
-const DetailsStack = createStackNavigator();
+        <View style={styles.bottomTab}>
+          <TouchableOpacity onPress={() => this.setState({ module: 1 })}>
+            <View style={styles.itemTab}>
+              <Icon
+                name="md-restaurant"
+                size={30}
+                color={this.state.module == 1 ? '#009387' : 'gray'}
+              />
+              <Text>Food</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({ module: 2 })}>
+            <View style={styles.itemTab}>
+              <Icon
+                name="md-basket"
+                size={30}
+                color={this.state.module == 2 ? '#009387' : 'gray'}
+              />
+              <Text>Cart</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({ module: 3 })}>
+            <View style={styles.itemTab}>
+              <Icon
+                name="md-map"
+                size={30}
+                color={this.state.module == 3 ? '#009387' : 'gray'}
+              />
+              <Text>Address</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => this.setState({ module: 4 })}>
+            <View style={styles.itemTab}>
+              <Icon
+                name="ios-contact"
+                size={30}
+                color={this.state.module == 4 ? '#009387' : 'gray'}
+              />
+              <Text>Profile</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  }
+}
 
-const Tab = createMaterialBottomTabNavigator();
+export default Main;
 
-const MainTabScreen = () => (
-    <Tab.Navigator
-      initialRouteName="Home"
-      activeColor="#fff"
-    >
-      <Tab.Screen
-        name="Home"
-        component={HomeStackScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarColor: '#009387',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-home" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={DetailsStackScreen}
-        options={{
-          tabBarLabel: 'Updates',
-          tabBarColor: '#1f65ff',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-notifications" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Profile"
-        component={ProfileScreen}
-        options={{
-          tabBarLabel: 'Profile',
-          tabBarColor: '#694fad',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-person" color={color} size={26} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Explore"
-        component={ExploreScreen}
-        options={{
-          tabBarLabel: 'Explore',
-          tabBarColor: '#d02860',
-          tabBarIcon: ({ color }) => (
-            <Icon name="ios-aperture" color={color} size={26} />
-          ),
-        }}
-      />
-    </Tab.Navigator>
-);
-
-export default MainTabScreen;
-
-const HomeStackScreen = ({navigation}) => (
-<HomeStack.Navigator screenOptions={{
-        headerStyle: {
-        backgroundColor: '#009387',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-        fontWeight: 'bold'
-        }
-    }}>
-        <HomeStack.Screen name="Home" component={HomeScreen} options={{
-        title:'Overview',
-        headerLeft: () => (
-            <Icon.Button name="ios-menu" size={25} backgroundColor="#009387" onPress={() => navigation.openDrawer()}></Icon.Button>
-        )
-        }} />
-</HomeStack.Navigator>
-);
-
-const DetailsStackScreen = ({navigation}) => (
-<DetailsStack.Navigator screenOptions={{
-        headerStyle: {
-        backgroundColor: '#1f65ff',
-        },
-        headerTintColor: '#fff',
-        headerTitleStyle: {
-        fontWeight: 'bold'
-        }
-    }}>
-        <DetailsStack.Screen name="Details" component={DetailsScreen} options={{
-        headerLeft: () => (
-            <Icon.Button name="ios-menu" size={25} backgroundColor="#1f65ff" onPress={() => navigation.openDrawer()}></Icon.Button>
-        )
-        }} />
-</DetailsStack.Navigator>
-);
+const styles = StyleSheet.create({
+  bottomTab: {
+    width: width,
+    backgroundColor: 'gray',
+    height: 60,
+    flexDirection: 'row',
+    elevation: 8,
+    shadowOpacity: 0.3,
+    shadowRadius: 50,
+  },
+  itemTab: {
+    width: width / 4,
+    backgroundColor: 'white',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
+  },
+});

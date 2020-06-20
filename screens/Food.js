@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   View,
   FlatList,
@@ -10,14 +10,14 @@ import {
   TouchableOpacity,
   ScrollView,
   AsyncStorage,
-} from "react-native";
-import { useTheme } from "@react-navigation/native";
-import Swiper from "react-native-swiper";
-import Icon from "react-native-vector-icons/Ionicons";
+} from 'react-native';
+import { useTheme } from '@react-navigation/native';
+import Swiper from 'react-native-swiper'; 
+import Icon from 'react-native-vector-icons/Ionicons'; 
 
-var { height, width } = Dimensions.get("window");
+var { height, width } = Dimensions.get('window');
 
-class HomeScreen extends React.Component {
+class Food extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -29,7 +29,7 @@ class HomeScreen extends React.Component {
   }
 
   componentDidMount() {
-    fetch("https://tutofox.com/foodapp/api.json")
+    fetch('https://kjcattle.herokuapp.com/v1/api/get_product')
       .then((response) => response.json())
       .then((responseJson) => {
         this.setState({
@@ -48,18 +48,20 @@ class HomeScreen extends React.Component {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <View style={{ width: width, alignItems: "center" }}>
+          <View style={{ width: width, alignItems: 'center' }}>
             <Image
               resizeMode="contain"
               style={{ height: 60, width: width / 2, margin: 10 }}
-              source={{ uri: "https://tutofox.com/foodapp/foodapp.png" }}
+              source={{
+                uri:
+                  'https://kjcattle.s3.ap-south-1.amazonaws.com/banner_image/k+j+cattle+farm+logo.jpg',
+              }}
             />
             <Swiper
               style={{ height: width / 2 }}
               showsButtons={false}
               autoplay={true}
-              autoplayTimeou={1}
-            >
+              autoplayTimeou={1}>
               {this.state.dataBanner.map((itemmap) => {
                 return (
                   <Image
@@ -76,9 +78,8 @@ class HomeScreen extends React.Component {
               width: width,
               borderRadius: 20,
               paddingVertical: 20,
-              backgroundColor: "white",
-            }}
-          >
+              backgroundColor: 'white',
+            }}>
             <View style={{ height: 10 }} />
             <FlatList
               horizontal={true}
@@ -102,14 +103,13 @@ class HomeScreen extends React.Component {
     return (
       <TouchableOpacity
         onPress={() => this.setState({ selectCate: item.id })}
-        style={[styles.divCategories, { backgroundColor: item.color }]}
-      >
+        style={[styles.divCategories, { backgroundColor: item.color }]}>
         <Image
           style={{ width: 100, height: 80 }}
           resizeMode="contain"
           source={{ uri: item.image }}
         />
-        <Text style={{ fontWeight: "bold", fontSize: 22 }}>{item.name}</Text>
+        <Text style={{ fontWeight: 'bold', fontSize: 22 }}>{item.name}</Text>
       </TouchableOpacity>
     );
   }
@@ -127,39 +127,36 @@ class HomeScreen extends React.Component {
             style={{
               height: width / 2 - 20 - 90,
               width: width / 2 - 20 - 90,
-              backgroundColor: "transparent",
+              backgroundColor: 'transparent',
             }}
           />
           <Text
-            style={{ fontWeight: "bold", fontSize: 22, textAlign: "center" }}
-          >
+            style={{ fontWeight: 'bold', fontSize: 22, textAlign: 'center' }}>
             {item.name}
           </Text>
           <Text>Descp Food and Details</Text>
-          <Text style={{ fontSize: 22, color: "green" }}>{item.price}</Text>
+          <Text style={{ fontSize: 22, color: 'green' }}>{item.price}</Text>
           <TouchableOpacity
             style={{
               width: width / 2 - 40,
-              backgroundColor: "#009387",
-              alignItems: "center",
-              justifyContent: "center",
+              backgroundColor: '#009387',
+              alignItems: 'center',
+              justifyContent: 'center',
               borderRadius: 5,
               padding: 5,
-              flexDirection: "row",
+              flexDirection: 'row',
             }}
-            onPress={() => this.onClickAddCart(item)}
-          >
+            onPress={() => this.onClickAddCart(item)}>
             <Text
               style={{
                 fontSize: 18,
-                color: "white",
-                fontWeight: "bold",
-              }}
-            >
+                color: 'white',
+                fontWeight: 'bold',
+              }}>
               Add Cart
             </Text>
             <View style={{ width: 10 }} />
-            <Icon name="ios-add-circle" size={30} color={"white"} />
+            <Icon name="ios-add-circle" size={30} color={'white'} />
           </TouchableOpacity>
         </TouchableOpacity>
       );
@@ -172,19 +169,19 @@ class HomeScreen extends React.Component {
       price: data.price,
     };
 
-    AsyncStorage.getItem("cart")
+    AsyncStorage.getItem('cart')
       .then((datacart) => {
         if (datacart !== null) {
           //We have data!!
           const cart = JSON.parse(datacart);
           cart.push(itemcart);
-          AsyncStorage.setItem("cart", JSON.stringify(cart));
+          AsyncStorage.setItem('cart', JSON.stringify(cart));
         } else {
           const cart = [];
           cart.push(itemcart);
-          AsyncStorage.setItem("cart", JSON.stringify(cart));
+          AsyncStorage.setItem('cart', JSON.stringify(cart));
         }
-        alert("add cart");
+        alert('add cart');
       })
       .catch((err) => {
         alert(err);
@@ -192,12 +189,12 @@ class HomeScreen extends React.Component {
   }
 }
 
-export default HomeScreen;
+export default Food;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#f2f2f2",
+    backgroundColor: '#f2f2f2',
   },
   imagebanner: {
     height: width / 2,
@@ -212,17 +209,17 @@ const styles = StyleSheet.create({
   //   marginBottom: 10,
   // },
   divCategories: {
-    backgroundColor: "red",
+    backgroundColor: 'red',
     margin: 5,
-    alignItems: "center",
+    alignItems: 'center',
     borderRadius: 10,
     padding: 10,
   },
   imageFood: {
     width: width / 2 - 20 - 10,
     height: width / 2 - 20 - 30,
-    backgroundColor: "transparent",
-    position: "absolute",
+    backgroundColor: 'transparent',
+    position: 'absolute',
     top: -45,
   },
   divFood: {
@@ -232,10 +229,10 @@ const styles = StyleSheet.create({
     marginTop: 55,
     marginBottom: 5,
     marginLeft: 10,
-    alignItems: "center",
+    alignItems: 'center',
     elevation: 8,
     shadowOpacity: 0.3,
     shadowRadius: 50,
-    backgroundColor: "white",
+    backgroundColor: 'white',
   },
 });
